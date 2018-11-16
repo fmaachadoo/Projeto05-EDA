@@ -8,6 +8,8 @@
 #define EXIT_SUCCESS 		0
 #define EXIT_FAILURE 		1
 
+
+
 typedef struct no{
 		int valor;
 		struct no *no_pai;
@@ -33,6 +35,7 @@ arvBin loadTreeFromFile(char filename[]){
 		exit(EXIT_FAILURE);		
 	}	
 	//aqui ainda nao esta pronto, falta ler o arquivo e montar a arvore
+	fscanf();
 }
 
 void get_filename(int choice2, char* resultado){	
@@ -48,13 +51,32 @@ void get_filename(int choice2, char* resultado){
 	//printf("done!\n");
 	
 }
+int is_Empty (arvBin *a){ 
+int result;
+ if(a==NULL){
+	 result=1;
+ }else{
+	 result=0;
+ }
+ return result;
+}  
 
-int isEmpty(arvBin a){
-	return (a == NULL);
-	} 
-
-arvBin inserir_elemento(arvBin arvore, int numero){
-	arvBin nova;
-		//Parei aqui pra fazer
+arvBin inserir_elemento(arvBin *arvore, int numero){
+	arvBin *nova;
+		if(is_Empty(arvore)){
+			nova = (arvBin*) malloc (sizeof(arvBin));
+			nova->filho_direita = NULL;
+			nova->filho_esquerda = NULL;
+			nova->valor = numero;
+			arvore = nova;	
+			return *nova;
+		}else{
+			if(numero<numero){
+				*arvore->filho_esquerda = inserir_elemento(arvore->filho_esquerda,numero);
+				return *arvore;
+			}else{
+				*arvore->filho_direita = inserir_elemento(arvore->filho_direita,numero);
+			}
+		
+		}
 }
-	
