@@ -56,18 +56,28 @@
 					printf("10) Voltar para o menu anterior;\n");
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 					printf("\n");
+					fflush(stdin);
 					scanf("%d",&choice2);
 				
 					switch(choice2){
 							case 1:{					
-						
+								//showTree(raiz);
 							break;
+							}
+							case 6:{
+								printf("\n");
+								printf("Print In-Order: ");
+								printInOrder(raiz);
+								break;
 							}
 							case 10:{
 							break;
 							}
 					}
-				
+					printf("\n");
+					printf("Pressione qualquer tecla para continunar...");
+					fflush(stdin);
+					getchar();
 				}while(choice2 != 10);
 			}else if(choice>7){
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
@@ -80,8 +90,6 @@
 		
 		return EXIT_SUCCESS;
 	}
-
-
 
 
 
