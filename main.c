@@ -2,11 +2,9 @@
 
 	int main(){
 		//inicializar a raiz da árvore
-		arvBin* raiz;
-		raiz = (arvBin *)malloc(sizeof(arvBin));
-		raiz->no_pai=NULL;
-		raiz->filho_esquerda=NULL;
-		raiz->filho_direita=NULL;
+		arvBin raiz;
+		raiz = (arvBin)malloc(sizeof(arvBin));
+
 		
 		
 		//menu
@@ -35,7 +33,7 @@
 					}
 					scanf("%d",&choice2);					
 					get_filename(choice2,filename);
-					*raiz = loadTreeFromFile(filename);
+					raiz = loadTreeFromFile(filename);
 					
 					break;
 				}
@@ -43,10 +41,12 @@
 			
 		}while(choice!=10);
 		
-		
+		printf("Fim do programa\n");
 		
 		return EXIT_SUCCESS;
 	}
+
+
 
 
 
