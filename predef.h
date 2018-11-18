@@ -22,6 +22,10 @@ typedef	NO *arvBin;
 arvBin loadTreeFromFile(char[]);
 void get_filename(int, char*);	
 arvBin inserir_elemento(arvBin , int);
+void showTree(arvBin);
+
+void printInOrder(arvBin);
+
 
 arvBin loadTreeFromFile(char filename[]){
 	system("cls");
@@ -52,6 +56,7 @@ arvBin loadTreeFromFile(char filename[]){
 	qtd++;
 	}
 	printf("Quantidade de numeros no arquivo %s: %d\n", filename, qtd);
+	return arvore;
 	
 }
 
@@ -88,6 +93,27 @@ arvBin inserir_elemento(arvBin arvore, int numero){
 			}				
 			return arvore;						
 		}
+}
+
+
+void showTree(arvBin raiz){
+	printf("%d\n",raiz->valor);
+	fflush(stdin); //funcao incompleta
+	
+	
+}
+
+
+void printInOrder(arvBin raiz){
+	//printf("debug1\n");
+	if(raiz!=NULL){
+		//printf("debug2\n");
+		printInOrder(raiz->filho_esquerda);
+		fflush(stdin);
+		//printf("debug3\n");		
+		printf("%d ",raiz->valor);		
+		printInOrder(raiz->filho_direita);
+	}
 }
 
 
