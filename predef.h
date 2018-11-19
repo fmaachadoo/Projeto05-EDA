@@ -107,6 +107,41 @@ void showTree(arvBin raiz){
 	
 }
 
+void showTree3(arvBin raiz, int spcNmbr){
+	int i;
+	
+	if(raiz!=NULL){
+		showTree3(raiz->filho_direita, spcNmbr - 10);
+		printf("\n");
+		
+		for(i = 0; i < spcNmbr; i++)
+			putchar(' ');
+			
+		printf("%d",raiz->valor);	
+		showTree3(raiz->filho_esquerda, spcNmbr + 10);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+int getLevelAux(arvBin raiz, int valor, int nivel){ 
+    if (raiz == NULL) 
+        return 0; 
+  
+    if (raiz->valor == valor) 
+        return nivel;
+  
+    int niveldown = getLevelAux(raiz->filho_esquerda, valor, nivel + 1); 
+    if (niveldown != 0) 
+        return niveldown; 
+  
+    niveldown = getLevelAux(raiz->filho_direita, valor, nivel + 1); 
+    return niveldown; 
+}
+
+int getLevel(arvBin raiz, int valor){ 
+    return getLevelAux(raiz, valor, 1);
+}
 
 void printInOrder(arvBin raiz){
 	//printf("debug1\n");
