@@ -150,24 +150,6 @@ void printLevel(arvBin raiz, int level,arvBin elem){
 }
 	
 
-
-void showTree3(arvBin raiz, int spcNmbr){
-	int i;
-	
-	if(raiz!=NULL){
-		showTree3(raiz->filho_direita, spcNmbr - 10);
-		printf("\n");
-		
-		for(i = 0; i < spcNmbr; i++)
-			putchar(' ');
-			
-		printf("%d",raiz->valor);	
-		showTree3(raiz->filho_esquerda, spcNmbr + 10);
-		printf("\n");
-	}
-	printf("\n");
-}
-
 int getLevelAux(arvBin raiz, int valor, int nivel){ 
     if (raiz == NULL) 
         return 0; 
