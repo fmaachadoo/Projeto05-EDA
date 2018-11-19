@@ -3,7 +3,7 @@
 	int main(){
 		//inicializar a raiz da Arvore
 		arvBin raiz;
-		raiz = (arvBin) malloc(sizeof(arvBin));
+		raiz = (arvBin) malloc(sizeof(NO));
 		
 		//menu
 		int choice;
@@ -12,7 +12,7 @@
 		int aux=0;
 		char *filename = (char*) malloc(5 * sizeof(char));
 		do{
-			limparTela();
+			
 			int choice2 = 0;
 			int i;
 			i=0;
@@ -32,9 +32,11 @@
 			scanf("%d",&choice);
 			
 			if(choice<7 && choice>0){
+				//printf("%s",filename);
+				get_filename(choice,filename);
+				raiz = loadTreeFromFile(filename);
 				do{
-					get_filename(choice,filename);
-					raiz = loadTreeFromFile(filename);
+					system("cls");
 					
 					printf("\n");
 					printf("MENU DE OPCOES:\n");
@@ -63,21 +65,27 @@
 				
 					switch(choice2){
 							case 1:{		
-								limparTela();			
-								showTree3(raiz, 50);
+										
+								showTree(raiz);
 								break;
 							}
 							case 3:{
 								aux = 0;
 								printf("Digite o valor a ser procurado: ");
 								fflush(stdin);
-								scanf("%d",&choice3);
-								getch();								
+								scanf("%d",&choice3);								
 								aux = searchValue(raiz,choice3);
 								if(aux==0){
 									printf("Valor nao encontrado!\n");
+								}else{
+									printf("O valor do nivel do no eh: %d\n",getLevel(raiz, choice3));
 								}
 							break;
+							}
+							case 4:{
+								aux = getHeight(raiz)+1;
+								printf("A altura da arvore eh: %d", aux);
+								break;
 							}
 							case 5:{								
 								aux = 0;
@@ -126,21 +134,12 @@
 				getchar();
 			}
 			
-		}while(choice!=10);
+		}while(choice!=7);
 		
 		printf("Fim do programa\n");
 		
 		return EXIT_SUCCESS;
 	}
-
-
-
-
-
-
-
-
-
 
 
 
