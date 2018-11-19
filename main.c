@@ -1,19 +1,18 @@
 #include "predef.h"
 
 	int main(){
-		//inicializar a raiz da árvore
+		//inicializar a raiz da Arvore
 		arvBin raiz;
-		raiz = (arvBin)malloc(sizeof(arvBin));
-
-		
+		raiz = (arvBin) malloc(sizeof(arvBin));
 		
 		//menu
 		int choice;
 		int choice2;
 		int choice3;
 		int aux=0;
-		char *filename = (char*)malloc(5*sizeof(char));
+		char *filename = (char*) malloc(5 * sizeof(char));
 		do{
+			limparTela();
 			int choice2 = 0;
 			int i;
 			i=0;
@@ -32,10 +31,11 @@
 			fflush(stdin);
 			scanf("%d",&choice);
 			
-			if(choice < 7){
+			if(choice<7 && choice>0){
 				do{
 					get_filename(choice,filename);
 					raiz = loadTreeFromFile(filename);
+					
 					printf("\n");
 					printf("MENU DE OPCOES:\n");
 					if(choice2>10){
@@ -62,20 +62,24 @@
 					scanf("%d",&choice2);
 				
 					switch(choice2){
-							case 1:{					
-								//showTree(raiz);
-							break;
+							case 1:{		
+								limparTela();			
+								showTree3(raiz, 50);
+								break;
 							}
 							case 3:{
 								aux = 0;
 								printf("Digite o valor a ser procurado: ");
 								fflush(stdin);
-								scanf("%d",&choice3);								
+								scanf("%d",&choice3);
+								printf("O NIVEL DESSA BOSTA EH: %d\n", getLevel(raiz, choice3));
+								
+								getch();								
 								aux = searchValue(raiz,choice3);
 								if(aux==0){
 									printf("Valor nao encontrado!\n");
 								}
-								break;
+							break;
 							}
 							case 5:{								
 								aux = 0;
@@ -84,7 +88,7 @@
 								scanf("%d",&choice3);
 								//raiz = removeValue(raiz, choice3);
 								
-								break;
+							break;
 							}
 							case 6:{
 								printf("\n");
@@ -109,22 +113,27 @@
 							}
 					}
 					printf("\n");
-					printf("Pressione qualquer tecla para continunar...");
+					printf("Pressione qualquer tecla para continuar... ");
 					fflush(stdin);
 					getchar();
 				}while(choice2 != 10);
-			}else if(choice>7){
+			}else if(choice>7 || choice<1){
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
-				printf("Escolha algum valor valido!\n");
+				printf("Erro: escolha algum valor valido!\n");
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+			
+				printf("\n");
+				printf("Pressione qualquer tecla para retornar... ");
+				fflush(stdin);
+				getchar();
 			}
-		}while(choice!=7);
+			
+		}while(choice!=10);
 		
 		printf("Fim do programa\n");
 		
 		return EXIT_SUCCESS;
 	}
-
 
 
 
