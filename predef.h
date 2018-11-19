@@ -12,6 +12,7 @@
 
 typedef struct no{
 		int valor;
+		struct no *no_pai;
 		struct no *filho_esquerda;
 		struct no *filho_direita;
 	} NO;
@@ -21,11 +22,12 @@ typedef	NO *arvBin;
 //funcoes
 arvBin loadTreeFromFile(char[]);
 void get_filename(int, char*);	
-arvBin inserir_elemento(arvBin , int);
+arvBin inserir_elemento(arvBin , int, arvBin);
 void showTree(arvBin);
-
 void printInOrder(arvBin);
-
+void printPreOrder(arvBin);
+void printPostOrder(arvBin raiz);
+int searchValue(arvBin,int);
 
 arvBin loadTreeFromFile(char filename[]){
 	system("cls");
@@ -52,7 +54,7 @@ arvBin loadTreeFromFile(char filename[]){
 	rewind(arquivo);
 	while(!feof(arquivo)){	
 	fscanf(arquivo, "%d", &temp_num); 
-	arvore = inserir_elemento(arvore,temp_num);
+	arvore = inserir_elemento(arvore,temp_num,NULL);
 	qtd++;
 	}
 	printf("Quantidade de numeros no arquivo %s: %d\n", filename, qtd);
@@ -75,8 +77,9 @@ void get_filename(int choice2, char* resultado){
 }
 
 
-arvBin inserir_elemento(arvBin arvore, int numero){
+arvBin inserir_elemento(arvBin arvore, int numero, arvBin no_pai){
 	arvBin nova;
+	
 	//printf("debug\n");
 	
 		if(arvore==NULL){				
@@ -84,12 +87,13 @@ arvBin inserir_elemento(arvBin arvore, int numero){
 			nova->filho_direita = NULL;
 			nova->filho_esquerda = NULL;
 			nova->valor = numero;
+			nova->no_pai = no_pai;
 			return nova;
 		}else{
 			if(numero>arvore->valor){
-				arvore->filho_direita = inserir_elemento(arvore->filho_direita,numero);
+				arvore->filho_direita = inserir_elemento(arvore->filho_direita,numero,arvore);
 			}else{
-				arvore->filho_esquerda = inserir_elemento(arvore->filho_esquerda,numero);	
+				arvore->filho_esquerda = inserir_elemento(arvore->filho_esquerda,numero,arvore);	
 			}				
 			return arvore;						
 		}
@@ -115,6 +119,50 @@ void printInOrder(arvBin raiz){
 		printInOrder(raiz->filho_direita);
 	}
 }
+
+void printPreOrder(arvBin raiz){
+	if (raiz!=NULL){
+	fflush(stdin);
+	printf("%d ",raiz->valor); 
+    printPreOrder(raiz->filho_esquerda); 
+    printPreOrder(raiz->filho_direita); 
+    } 	
+}
+
+void printPostOrder(arvBin raiz){
+	if(raiz!=NULL){
+	fflush(stdin);
+	printPostOrder(raiz->filho_esquerda);
+    printPostOrder(raiz->filho_direita); 
+    printf("%d ",raiz->valor);
+	}	
+}
+
+int searchValue(arvBin raiz,int valor){
+	int retorno = 0;
+	if(raiz!=NULL){		
+		if(raiz->valor==valor){
+			printf("Valor Encontrado!\n");
+			printf("Valor: %d\n", raiz->valor);
+			//falta colocar aqui o print nivel do nó
+			printf("Valor do no pai: %d\n",raiz->no_pai->valor);
+			if(raiz->valor==raiz->no_pai->filho_esquerda->valor){
+				printf("Valor do no irmao(a direita): %d\n",raiz->no_pai->filho_direita->valor);
+			}else{
+				printf("Valor do no irmao(a esquerda): %d\n",raiz->no_pai->filho_esquerda->valor);
+			}
+			retorno = 1; 
+		}else{
+			retorno += searchValue(raiz->filho_esquerda,valor);
+			retorno += searchValue(raiz->filho_direita,valor);
+		}		
+	}
+	return retorno;
+}
+
+
+
+
 
 
 
