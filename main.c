@@ -72,8 +72,6 @@
 								printf("Digite o valor a ser procurado: ");
 								fflush(stdin);
 								scanf("%d",&choice3);
-								printf("O NIVEL DESSA BOSTA EH: %d\n", getLevel(raiz, choice3));
-								
 								getch();								
 								aux = searchValue(raiz,choice3);
 								if(aux==0){
