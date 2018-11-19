@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -28,13 +29,16 @@ void printInOrder(arvBin);
 void printPreOrder(arvBin);
 void printPostOrder(arvBin raiz);
 int searchValue(arvBin,int);
+int getHeight(arvBin);
+void printLevel(arvBin,int,arvBin);
+int getLevel(arvBin, int);
 
 arvBin loadTreeFromFile(char filename[]){
 	system("cls");
 	//abrir o arquivo e ler ele colocando em uma arvore bin de busca.
 	arvBin arvore=NULL;
 	//arvore = (arvBin *) malloc(sizeof(arvBin));
-	
+	printf("eoq\n");
 	int temp_num;
 	int qtd = 0;
 	
@@ -58,19 +62,23 @@ arvBin loadTreeFromFile(char filename[]){
 	qtd++;
 	}
 	printf("Quantidade de numeros no arquivo %s: %d\n", filename, qtd);
+	fclose(arquivo);
 	return arvore;
 	
 }
 
 void get_filename(int choice2, char* resultado){	
-	char arquivo[6] = "bst";
+
+	char arquivo[3] = "bst";
 	char txt[5] = ".txt";
 	char id_file[6];
+
 	//printf("function running...\n");
-		itoa(choice2,id_file,10);		
+		itoa(choice2,id_file,10);
 		strcat(id_file,txt);		
 		strcat(arquivo,id_file);	
 		strcpy(resultado,arquivo);
+
 		
 	//printf("done!\n");
 	
@@ -101,11 +109,47 @@ arvBin inserir_elemento(arvBin arvore, int numero, arvBin no_pai){
 
 
 void showTree(arvBin raiz){
-	printf("%d\n",raiz->valor);
-	fflush(stdin); //funcao incompleta
+	int space;
+	int i=0;
+	int j=0;
+	int levelmax = getHeight(raiz)+1;
+	arvBin elem;
+	elem = raiz;
+	for(j=0;j<=levelmax;j++){
+	printLevel(raiz, j, elem);
+	printf("\n");
+	}
+	//fflush(stdin); //funcao incompleta
 	
 	
 }
+
+void printLevel(arvBin raiz, int level,arvBin elem){
+	int aux;
+	int aux2;
+	int i;
+	//parecido searchValue pra encontrar os valores
+	if(elem!=NULL&&raiz!=NULL){	
+	aux2 =	getHeight(raiz);
+	aux2 = (aux2 - level)*2;
+			aux = (getLevel(raiz, elem->valor)+1);
+			if(aux==level){
+				for(i=0;i<=aux2;i++){
+					putchar(' ');
+				}
+				printf("%d ",elem->valor);
+			}else{
+				if(elem->filho_esquerda!=NULL){
+				printLevel(raiz,level,elem->filho_esquerda);
+				}
+				if(elem->filho_direita!=NULL){
+				printLevel(raiz,level,elem->filho_direita);
+				}
+			}		
+		}
+}
+	
+
 
 void showTree3(arvBin raiz, int spcNmbr){
 	int i;
@@ -180,20 +224,47 @@ int searchValue(arvBin raiz,int valor){
 			printf("Valor Encontrado!\n");
 			printf("Valor: %d\n", raiz->valor);
 			//falta colocar aqui o print nivel do nó
-			printf("Valor do no pai: %d\n",raiz->no_pai->valor);
-			if(raiz->valor==raiz->no_pai->filho_esquerda->valor){
-				printf("Valor do no irmao(a direita): %d\n",raiz->no_pai->filho_direita->valor);
+			if(raiz->no_pai!=NULL){
+				printf("Valor do no pai: %d\n",raiz->no_pai->valor);
+				if(raiz->valor==raiz->no_pai->filho_esquerda->valor){
+					printf("Valor do no irmao(a direita): %d\n",raiz->no_pai->filho_direita->valor);
+				}else{
+					printf("Valor do no irmao(a esquerda): %d\n",raiz->no_pai->filho_esquerda->valor);
+				}
 			}else{
-				printf("Valor do no irmao(a esquerda): %d\n",raiz->no_pai->filho_esquerda->valor);
+				printf("Esse eh o no raiz da arvore e nao possui no pai e nem irmaos\n");
 			}
 			retorno = 1; 
 		}else{
+			
 			retorno += searchValue(raiz->filho_esquerda,valor);
 			retorno += searchValue(raiz->filho_direita,valor);
 		}		
 	}
 	return retorno;
 }
+
+int getHeight(arvBin raiz){
+    if (raiz == NULL) {
+        return -1;
+    }
+
+    int esquerda = getHeight(raiz->filho_esquerda);
+    int direita = getHeight(raiz->filho_direita);
+
+    if (esquerda > direita) {
+        return esquerda + 1;
+    } else {
+        return direita + 1;
+    }
+}
+
+
+
+
+
+
+
 
 
 
