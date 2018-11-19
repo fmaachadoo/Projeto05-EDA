@@ -10,6 +10,8 @@
 		//menu
 		int choice;
 		int choice2;
+		int choice3;
+		int aux=0;
 		char *filename = (char*)malloc(5*sizeof(char));
 		do{
 			int choice2 = 0;
@@ -45,12 +47,12 @@
 					}
 					printf("1)Mostrar Arvore Atual;\n");
 					printf("2)Imprimir na tela se a arvore eh cheia;\n");
-					printf("3)Procurar Valor;\n");
+					printf("3)Procurar Valor;\n"); 		//OK
 					printf("4)Imprimir na tela a altura da arvore;\n");
-					printf("5)Remover Valor;\n");
-					printf("6)Print In-Order;\n");
-					printf("7)Print Pre-Order;\n");
-					printf("8)Print Post-Order;\n");
+					printf("5)Remover Valor;\n");	
+					printf("6)Print In-Order;\n");		//OK
+					printf("7)Print Pre-Order;\n");		//OK
+					printf("8)Print Post-Order;\n");	//OK
 					printf("9)Balancear Arvore;\n");
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
 					printf("10) Voltar para o menu anterior;\n");
@@ -64,10 +66,42 @@
 								//showTree(raiz);
 							break;
 							}
+							case 3:{
+								aux = 0;
+								printf("Digite o valor a ser procurado: ");
+								fflush(stdin);
+								scanf("%d",&choice3);								
+								aux = searchValue(raiz,choice3);
+								if(aux==0){
+									printf("Valor nao encontrado!\n");
+								}
+								break;
+							}
+							case 5:{								
+								aux = 0;
+								printf("Digite o valor a ser excluido: ");
+								fflush(stdin);
+								scanf("%d",&choice3);
+								//raiz = removeValue(raiz, choice3);
+								
+								break;
+							}
 							case 6:{
 								printf("\n");
 								printf("Print In-Order: ");
 								printInOrder(raiz);
+								break;
+							}
+							case 7:{
+								printf("\n");
+								printf("Print Pre-Order: ");
+								printPreOrder(raiz);
+								break;
+							}
+							case 8:{
+								printf("\n");
+								printf("Print Post-Order: ");
+								printPostOrder(raiz);
 								break;
 							}
 							case 10:{
@@ -90,6 +124,7 @@
 		
 		return EXIT_SUCCESS;
 	}
+
 
 
 
