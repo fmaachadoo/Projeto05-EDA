@@ -47,15 +47,15 @@
 					}else{
 						printf("\n");
 					}
-					printf("1)Mostrar Arvore Atual;\n");
-					printf("2)Imprimir na tela se a arvore eh cheia;\n");
+					printf("1)Mostrar Arvore Atual;\n");//OK
+					printf("2)Imprimir na tela se a arvore eh cheia;\n");	//OK
 					printf("3)Procurar Valor;\n"); 		//OK
-					printf("4)Imprimir na tela a altura da arvore;\n");
-					printf("5)Remover Valor;\n");	
+					printf("4)Imprimir na tela a altura da arvore;\n"); 	//OK
+					printf("5)Remover Valor;\n");		//OK
 					printf("6)Print In-Order;\n");		//OK
 					printf("7)Print Pre-Order;\n");		//OK
 					printf("8)Print Post-Order;\n");	//OK
-					printf("9)Balancear Arvore;\n");
+					printf("9)Balancear Arvore;\n"); //FALTA ESSA
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
 					printf("10) Voltar para o menu anterior;\n");
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
@@ -64,9 +64,17 @@
 					scanf("%d",&choice2);
 				
 					switch(choice2){
-							case 1:{		
-										
+							case 1:{												
 								showTree(raiz);
+								break;
+							}
+							case 2:{
+								aux = isFull(raiz);
+								if(aux==0){
+									printf("Arvore nao-cheia\n");
+								}else{
+									printf("Arvore cheia\n");
+								}
 								break;
 							}
 							case 3:{
@@ -83,16 +91,17 @@
 							break;
 							}
 							case 4:{
-								aux = getHeight(raiz)+1;
+								aux = getHeight(raiz);
 								printf("A altura da arvore eh: %d", aux);
 								break;
 							}
 							case 5:{								
-								aux = 0;
+								
 								printf("Digite o valor a ser excluido: ");
 								fflush(stdin);
 								scanf("%d",&choice3);
-								//raiz = removeValue(raiz, choice3);
+								
+								raiz = removeValue(raiz, choice3);
 								
 							break;
 							}
@@ -113,6 +122,9 @@
 								printf("Print Post-Order: ");
 								printPostOrder(raiz);
 								break;
+							}
+							case 9:{
+								balanceTree(raiz);
 							}
 							case 10:{
 							break;
@@ -140,6 +152,11 @@
 		
 		return EXIT_SUCCESS;
 	}
+
+
+
+
+
 
 
 
