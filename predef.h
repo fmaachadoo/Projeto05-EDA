@@ -5,6 +5,7 @@
 #include <string.h>
 #include <conio.h>
 #include <windows.h>
+#include <math.h>
 
 #define EXIT_SUCCESS 		0
 #define EXIT_FAILURE 		1
@@ -108,47 +109,91 @@ arvBin inserir_elemento(arvBin arvore, int numero, arvBin no_pai){
 }
 
 
-void showTree(arvBin raiz){
+
+/*void showTree(arvBin raiz){
 	int space;
 	int i=0;
 	int j=0;
 	int levelmax = getHeight(raiz)+1;
 	arvBin elem;
 	elem = raiz;
-	for(j=0;j<=levelmax;j++){
+	for(j=2;j<=levelmax+2;j++){
 	printLevel(raiz, j, elem);
 	printf("\n");
+	
 	}
 	//fflush(stdin); //funcao incompleta
 	
 	
+}*/
+int print_tree(arvBin raiz, int is_left, int offset, int profnd, char s[20][255])
+{
+    char b[20];
+    int width = 5;
+
+    if(raiz==NULL){ 
+	return 0;
+	}
+    sprintf(b, "(%03d)", raiz->valor);
+    int filho_esquerda  = print_tree(raiz->filho_esquerda,  1, offset,                profnd + 1, s);
+    int filho_direita = print_tree(raiz->filho_direita, 0, offset + filho_esquerda + width, profnd + 1, s);
+
+#ifdef COMPACT
+    for (int i = 0; i < width; i++)
+        s[profnd][offset + filho_esquerda + i] = b[i];
+
+    if (profnd && is_left) {
+
+        for (int i = 0; i < width + filho_direita; i++)
+            s[profnd - 1][offset + filho_esquerda + width/2 + i] = '-';
+
+        s[profnd - 1][offset + filho_esquerda + width/2] = '.';
+
+    } else if (profnd && !is_left) {
+
+        for (int i = 0; i < filho_esquerda + width; i++)
+            s[profnd - 1][offset - width/2 + i] = '-';
+
+        s[profnd - 1][offset + filho_esquerda + width/2] = '.';
+    }
+#else
+    for (int i = 0; i < width; i++)
+        s[2 * profnd][offset + filho_esquerda + i] = b[i];
+
+    if (profnd && is_left) {
+
+        for (int i = 0; i < width + filho_direita; i++)
+            s[2 * profnd - 1][offset + filho_esquerda + width/2 + i] = '-';
+
+        s[2 * profnd - 1][offset + filho_esquerda + width/2] = '+';
+        s[2 * profnd - 1][offset + filho_esquerda + width + filho_direita + width/2] = '+';
+
+    } else if (profnd && !is_left) {
+
+        for (int i = 0; i < filho_esquerda + width; i++)
+            s[2 * profnd - 1][offset - width/2 + i] = '-';
+
+        s[2 * profnd - 1][offset + filho_esquerda + width/2] = '+';
+        s[2 * profnd - 1][offset - width/2 - 1] = '+';
+    }
+#endif
+
+    return filho_esquerda + width + filho_direita;
 }
 
-void printLevel(arvBin raiz, int level,arvBin elem){
-	int aux;
-	int aux2;
-	int i;
-	//parecido searchValue pra encontrar os valores
-	if(elem!=NULL&&raiz!=NULL){	
-	aux2 =	getHeight(raiz);
-	aux2 = (aux2 - level)*2;
-			aux = (getLevel(raiz, elem->valor)+1);
-			if(aux==level){
-				for(i=0;i<=aux2;i++){
-					putchar(' ');
-				}
-				printf("%d ",elem->valor);
-			}else{
-				if(elem->filho_esquerda!=NULL){
-				printLevel(raiz,level,elem->filho_esquerda);
-				}
-				if(elem->filho_direita!=NULL){
-				printLevel(raiz,level,elem->filho_direita);
-				}
-			}		
-		}
+void showTree(arvBin raiz)
+{
+	printf("Print da Arvore Binaria\n");
+    char s[20][255];
+    for (int i = 0; i < 20; i++)
+        sprintf(s[i], "%80s", " ");
+
+    print_tree(raiz, 0, 0, 0, s);
+
+    for (int i = 0; i < 20; i++)
+        printf("%s\n", s[i]);
 }
-	
+
 
 int getLevelAux(arvBin raiz, int valor, int nivel){ 
     if (raiz == NULL) 
@@ -240,14 +285,6 @@ int getHeight(arvBin raiz){
         return direita + 1;
     }
 }
-
-
-
-
-
-
-
-
 
 
 
